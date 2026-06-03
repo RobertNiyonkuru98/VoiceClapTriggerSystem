@@ -1,0 +1,5 @@
+pyaudio
+numpy
+SpeechRecognition
+pyttsx3
+PyGetWindow
