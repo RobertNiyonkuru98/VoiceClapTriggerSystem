@@ -1,11 +1,11 @@
-# Lazy Assistant - Voice & Clap Controlled
+# Assistant - Voice & Clap Controlled
 
 This project is a voice-activated assistant that triggers system actions based on a wake word, number of claps, and optional voice modifiers.
 
-## 🚀 How to Run
+## How to Run
 
 ### 1. Activate the Virtual Environment
-Open your terminal in the project root (`Python_Start`) and run:
+Open your terminal in the project root and run:
 
 **For PowerShell:**
 ```powershell
@@ -17,15 +17,25 @@ Open your terminal in the project root (`Python_Start`) and run:
 .venv\Scripts\activate.bat
 ```
 
+**For Command Prompt (Bash):**
+```bash
+source .venv/Scripts/activate
+```
+
+**For Command Prompt (Git Bash):**
+```bash
+source .venv/Scripts/activate
+```
+
 ### 2. Run the Main Script
 Once the environment is active, navigate to the script directory or run it from the root:
 ```bash
-python individual_prep/lazy/main.py
+python main.py
 ```
 
 ---
 
-## 🛠 How it Works
+## How it Works
 
 1.  **Wake Word**: The system waits for you to say the wake word: **"jesus"**. (Configurable in `config.py`).
 2.  **Clap Detection**: After the wake word, you have **4 seconds** to clap. The number of claps determines the action category.
@@ -46,7 +56,7 @@ python individual_prep/lazy/main.py
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 You can customize the behavior in `config.py`:
 - `WAKE_WORD`: Change "jesus" to your preferred trigger.
 - `THRESHOLD`: Increase if claps aren't being detected; decrease if background noise triggers it.
