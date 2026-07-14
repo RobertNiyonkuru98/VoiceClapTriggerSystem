@@ -1,0 +1,4 @@
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "medical help", "category": "health"}
+{"type": "cancellation", "event_id": "a1843281", "timestamp": 1784035502.612912, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}

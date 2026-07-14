@@ -1,0 +1,50 @@
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "00c6b40c", "timestamp": 1784035816.7541802, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "activation", "event_id": "356d7d76", "timestamp": 1784035836.8237622, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "3a904074", "timestamp": 1784037041.299525, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "activation", "event_id": "e7f4b9c3", "timestamp": 1784038043.3619597, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "97bc54bb", "timestamp": 1784039059.572032, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}

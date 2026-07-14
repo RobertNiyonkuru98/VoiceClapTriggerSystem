@@ -1,64 +1,51 @@
-# Assistant - Voice & Clap Controlled
+# Multi-Trigger Emergency Assistance System (MTEAS)
 
-This project is a voice-activated assistant that triggers system actions based on a wake word, number of claps, and optional voice modifiers.
+A layered-verification emergency assistance **prototype** (Python / Windows).
+Say a configurable emergency **keyword**, confirm with a **clap pattern**, optionally
+say a **modifier** (fire / health / danger), then a **cancellation countdown**
+gives a final chance to abort before a **simulated** alert is logged.
 
-## How to Run
+This matches the SRS (`Robert Tony Mitali Niyonkuru_[Proposal and SRS
+Document]_[W4]_[05-27-2026].pdf`). The older `main.py` / `actions.py` /
+`config.py` were a productivity-launcher prototype and are being superseded by the
+modular `mteas/` package documented below.
 
-### 1. Activate the Virtual Environment
-Open your terminal in the project root and run:
-
-**For PowerShell:**
-```powershell
-.venv\Scripts\Activate.ps1
+## Architecture (maps to SRS class diagram)
+```
+EmergencySystem (controller / state machine)
+   ├─ KeywordDetector   FR1  continuous keyword listen (+ inject mode)
+   ├─ ClapDetector      FR2  onset-based clap counting (testable)
+   ├─ ModifierProcessor FR3  fire/health/danger classification
+   ├─ AlertManager      FR4  tick-driven cancellation countdown
+   ├─ EventLogger       FR5  append-only JSONL event log
+   └─ Configuration     NFR3 configurable profiles (JSON)
+gui/ (PyQt6)            NFR4.1 usability — Dashboard / Settings / Event Log
 ```
 
-**For Command Prompt (CMD):**
-```cmd
-.venv\Scripts\activate.bat
-```
+State machine: `IDLE -> KEYWORD -> CLAP_VERIFY -> MODIFIER -> COUNTDOWN -> (ALERT | CANCEL) -> IDLE`
 
-**For Command Prompt (Bash):**
+## Run the engine (headless, no mic)
 ```bash
-source .venv/Scripts/activate
+.venv/Scripts/activate
+python -m mteas.sim_demo        # shows activation + cancellation flows
+python -m unittest discover -s tests -p "test_*.py"   # 25 tests
 ```
 
-**For Command Prompt (Git Bash):**
+## Run the GUI (PyQt6)
 ```bash
-source .venv/Scripts/activate
+.venv/Scripts/activate
+python -m gui.app
 ```
+Use the **Dashboard > Simulated input** panel to drive the whole workflow without
+a microphone. The **Settings** tab configures keyword / threshold / clap pattern /
+countdown and manages profiles (saved to `mteas_config.json`). The **Event Log**
+tab shows the append-only log (`emergency_events.log`).
 
-### 2. Run the Main Script
-Once the environment is active, navigate to the script directory or run it from the root:
-```bash
-python main.py
-```
+## Why a "simulated" alert?
+The SRS (FR4.5) requires a *simulated* alert — the prototype must not perform
+irreversible real actions. Every activation is gated behind full layered
+verification + a cancellation window (NFR2, NFR5).
 
----
-
-## How it Works
-
-1.  **Wake Word**: The system waits for you to say the wake word: **"jesus"**. (Configurable in `config.py`).
-2.  **Clap Detection**: After the wake word, you have **4 seconds** to clap. The number of claps determines the action category.
-3.  **Modifier Word**: After clapping, the system waits **2 seconds** for a "modifier" word to specify the action.
-
-### Command Table
-
-| Claps | Modifier | Action |
-| :--- | :--- | :--- |
-| **1** | *(None)* | Launch Study Mode (Brave with Canvas/Calendar) |
-| **1** | "social" | Open Instagram PWA |
-| **1** | "music" | Open Spotify |
-| **1** | "movie" | Open MovieBox PWA |
-| **2** | "peace" | Open ChatGPT |
-| **2** | "study" | Launch Study Mode |
-| **2** | *(None)* | Snap VS Code & Notepad to sides |
-| **3** | *(Any)* | **System Shutdown Mode**: Close Brave/Code and Open Steam |
-
----
-
-## Configuration
-You can customize the behavior in `config.py`:
-- `WAKE_WORD`: Change "jesus" to your preferred trigger.
-- `THRESHOLD`: Increase if claps aren't being detected; decrease if background noise triggers it.
-- `BRAVE_PATH`: Ensure this matches your Brave installation path.
-- `STUDY_URLS`: Add/remove URLs for your study sessions.
+## Docs
+- `docs/SRS_TRACEABILITY.md` — every FR/NFR mapped to module + status
+- `docs/DESIGN_DECISIONS.md` — logged design choices

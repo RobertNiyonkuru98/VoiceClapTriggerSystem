@@ -3,3 +3,4 @@ numpy
 SpeechRecognition
 pyttsx3
 PyGetWindow
+PyQt6
