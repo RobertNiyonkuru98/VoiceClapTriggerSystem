@@ -1,0 +1,38 @@
+# ── Python ──────────────────────────────────────────────────────────────────
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# ── Environment / secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Runtime / generated ──────────────────────────────────────────────────────
+*.log
+*.db
+mteas_config.json
+
+# ── Frontend ─────────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# ── OS / editor artifacts ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ── Claude Code (must never be pushed) ───────────────────────────────────────
+.claude/
+
+# ── PlantUML tooling (jar only — .puml source and rendered .png are tracked) ──
+plantUML.jar

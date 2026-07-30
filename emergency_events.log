@@ -1,0 +1,150 @@
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "00c6b40c", "timestamp": 1784035816.7541802, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "activation", "event_id": "356d7d76", "timestamp": 1784035836.8237622, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "3a904074", "timestamp": 1784037041.299525, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "activation", "event_id": "e7f4b9c3", "timestamp": 1784038043.3619597, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "cancellation", "event_id": "97bc54bb", "timestamp": 1784039059.572032, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "cancelled", "details": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": ""}
+{"type": "error", "message": "listening timed out while waiting for phrase to start"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "help"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "i need medical help", "category": "health"}
+{"type": "activation", "event_id": "ae47f0bf", "timestamp": 1784382682.3342326, "keyword": "help", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "help"}
+{"type": "keyword", "phrase": "help"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "f96d0d12", "timestamp": 1785086438.7470024, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "a5a42275", "timestamp": 1785090113.186336, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "danger", "category": "danger"}
+{"type": "activation", "event_id": "1a86cd12", "timestamp": 1785090176.6461036, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": "danger", "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "59b93d33", "timestamp": 1785090253.81529, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "danger", "category": "danger"}
+{"type": "activation", "event_id": "bc3fb61d", "timestamp": 1785090325.343522, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": "danger", "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "68e5fe8a", "timestamp": 1785097254.5737412, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": "Health", "category": "health"}
+{"type": "activation", "event_id": "aa50a2ff", "timestamp": 1785241967.1889036, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "18aad13f", "timestamp": 1785366243.0701199, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 0}
+{"type": "error", "message": "clap mismatch: got 0, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 3}
+{"type": "modifier", "phrase": null, "category": null}
+{"type": "activation", "event_id": "ee677de5", "timestamp": 1785418962.6607995, "keyword": "jesus", "clap_count": 3, "modifier_phrase": null, "category": null, "outcome": "activated", "details": ""}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 1}
+{"type": "error", "message": "clap mismatch: got 1, needed >= 2"}
+{"type": "keyword", "phrase": "jesus"}
+{"type": "clap", "count": 2}
+{"type": "modifier", "phrase": null, "category": "health"}
+{"type": "activation", "event_id": "aa4a1aa7", "timestamp": 1785419280.0922306, "keyword": "jesus", "clap_count": 2, "modifier_phrase": null, "category": "health", "outcome": "activated", "details": ""}
