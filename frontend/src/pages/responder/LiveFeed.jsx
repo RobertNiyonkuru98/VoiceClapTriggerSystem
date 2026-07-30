@@ -218,7 +218,7 @@ export default function LiveFeed({ user }) {
   const active = alerts.filter(a => a.outcome === 'acknowledged');
 
   return (
-    <div className={`animate-slide-in ${alarmActive ? 'alarm-pulse-bg' : ''}`} style={{ height: 'calc(100vh - 120px)' }}>
+    <div className={`animate-slide-in ${alarmActive ? 'alarm-pulse-bg' : ''}`} style={{ height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column' }}>
       {alarmActive && (
         <style>{`
           .alarm-pulse-bg { animation: pulseRed 1.5s infinite; }
@@ -226,7 +226,7 @@ export default function LiveFeed({ user }) {
         `}</style>
       )}
 
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexShrink: 0 }}>
         <h1 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: alarmActive ? '#ef4444' : 'var(--text-main)' }}>
           <Activity size={24} /> CAD Terminal
         </h1>
@@ -238,12 +238,12 @@ export default function LiveFeed({ user }) {
       </div>
 
       {conflictMsg && (
-        <div style={{ marginBottom: '1rem', padding: '0.75rem 1rem', borderRadius: 8, background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.3)', color: '#eab308', fontSize: '0.9rem' }}>
+        <div style={{ marginBottom: '1rem', padding: '0.75rem 1rem', borderRadius: 8, background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.3)', color: '#eab308', fontSize: '0.9rem', flexShrink: 0 }}>
           {conflictMsg}
         </div>
       )}
 
-      <div style={{ display: 'flex', gap: '1.5rem', height: '100%' }}>
+      <div style={{ display: 'flex', gap: '1.5rem', flex: 1, minHeight: 0 }}>
 
         {/* Left: Map */}
         <div className="card" style={{ flex: 1.5, padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
@@ -262,14 +262,14 @@ export default function LiveFeed({ user }) {
         </div>
 
         {/* Right: Dispatch Queues */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem', overflowY: 'auto', minHeight: 0 }}>
 
           {/* Top: Incoming (Unacknowledged), oldest-first priority order */}
-          <div className="card" style={{ flex: unacknowledged.length > 0 ? 1 : '0 0 auto', display: 'flex', flexDirection: 'column', border: unacknowledged.length > 0 ? '1px solid #ef4444' : '1px solid var(--border-color)' }}>
-            <h3 style={{ fontSize: '1rem', color: unacknowledged.length > 0 ? '#ef4444' : 'var(--text-muted)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="card" style={{ flex: unacknowledged.length > 0 ? '1 1 0' : '0 0 auto', display: 'flex', flexDirection: 'column', minHeight: 0, border: unacknowledged.length > 0 ? '1px solid #ef4444' : '1px solid var(--border-color)' }}>
+            <h3 style={{ fontSize: '1rem', color: unacknowledged.length > 0 ? '#ef4444' : 'var(--text-muted)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
               <ShieldAlert size={18} /> Incoming Queue ({unacknowledged.length})
             </h3>
-            <div style={{ flex: 1, overflowY: 'auto' }}>
+            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
               {unacknowledged.length === 0 ? (
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'center', padding: '1rem' }}>No incoming alerts.</div>
               ) : (
@@ -308,11 +308,11 @@ export default function LiveFeed({ user }) {
           </div>
 
           {/* Bottom: Active (Acknowledged) */}
-          <div className="card" style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
-            <h3 style={{ fontSize: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="card" style={{ flex: '2 1 0', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <h3 style={{ fontSize: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
               <CheckCircle size={18} color="var(--brand-color)" /> Active / Responding ({active.length})
             </h3>
-            <div style={{ flex: 1, overflowY: 'auto' }}>
+            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
               {active.length === 0 ? (
                 <div style={{ color: 'var(--text-muted)', fontSize: '0.9rem', textAlign: 'center', padding: '1rem' }}>No active incidents.</div>
               ) : (
