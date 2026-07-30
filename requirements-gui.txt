@@ -1,0 +1,9 @@
+# ── PyQt desktop app (local machine only — NOT for server deployment) ──
+-r requirements.txt
+pyaudio
+numpy
+SpeechRecognition
+pyttsx3
+PyGetWindow
+PyQt6
+requests

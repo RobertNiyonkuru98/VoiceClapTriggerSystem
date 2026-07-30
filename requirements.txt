@@ -1,13 +1,4 @@
-# ── PyQt device app (household user) ──────────────────────────────────
-pyaudio
-numpy
-SpeechRecognition
-pyttsx3
-PyGetWindow
-PyQt6
-requests           # PyQt → backend HTTP dispatch
-
-# ── FastAPI backend (responder + admin interfaces) ─────────────────────
+# ── FastAPI backend (deployed to Render) ───────────────────────────────
 fastapi
 uvicorn[standard]
 sqlalchemy[asyncio]

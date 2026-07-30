@@ -54,7 +54,7 @@ cd VoiceClapTriggerSystem
 CREATE DATABASE mteas;
 ```
 
-### 3. Backend — Python environment
+### 3. Python environment
 
 ```bash
 # Create and activate a virtual environment
@@ -65,8 +65,8 @@ python -m venv .venv
 # macOS / Linux
 source .venv/bin/activate
 
-# Install all dependencies
-pip install -r requirements.txt
+# Install everything — backend + desktop app
+pip install -r requirements-gui.txt
 ```
 
 ### 4. Backend — environment variables
@@ -207,7 +207,8 @@ VoiceClapTriggerSystem/
 │   ├── SRS_ADDENDUM.md       Multi-actor SRS extension (FR 7–9)
 │   └── DESIGN_DECISIONS.md   Logged architecture decisions
 ├── render.yaml               Render deployment blueprint
-├── requirements.txt          Python dependencies
+├── requirements.txt          Backend-only deps (what Render installs)
+├── requirements-gui.txt      Full local deps — backend + desktop app
 └── .env                      Local backend secrets (not committed)
 ```
 
