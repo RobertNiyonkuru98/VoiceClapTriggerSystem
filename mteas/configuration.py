@@ -26,13 +26,24 @@ class Configuration:
     threshold: int = 700                 # mic energy threshold for a clap onset
     clap_pattern: int = 2                # required claps to confirm intent (FR2.3)
     clap_window_seconds: float = 5.0     # time allowed to clap after keyword (FR2.2)
-    modifier_window_seconds: float = 3.0  # time allowed for modifier word (FR3.3)
+    modifier_window_seconds: float = 4.5  # time allowed for modifier word (FR3.3)
     countdown_seconds: int = 10          # cancellation window length (FR4.1/FR4.2)
     mic_sample_rate: int = 44100
     mic_block_size: int = 1024
+    keyword_engine: str = "google"       # "google" (network) or "vosk" (offline)
+    dispatch_channel: str = "simulated"  # "simulated", "email", or "backend"
+    responder_email: str = ""            # recipient of email dispatch
+    backend_url: str = "http://localhost:8000"  # MTEAS backend API base URL (FR7.1)
+    device_token: str = ""               # Unique token linking this device to a registered household (FR7.1)
+    auto_calibrate_on_start: bool = True  # recalibrate threshold from ambient noise every "Start Listening"
     categories: Dict[str, List[str]] = field(
         default_factory=lambda: dict(DEFAULT_CATEGORIES)
     )
+    # Fallback category by exact clap count, used when no modifier word is
+    # recognised (or none is spoken) so an emergency is never silently left
+    # as "general" just because speech recognition missed the modifier.
+    # Keys are the clap count as a string (JSON requires string keys).
+    clap_category_map: Dict[str, str] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
         return asdict(self)

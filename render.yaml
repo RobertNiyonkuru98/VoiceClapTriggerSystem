@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: mteas-backend
+    env: python
+    plan: free
+    rootDir: .
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mteas-db
+          property: connectionString
+      - key: MTEAS_JWT_SECRET
+        generateValue: true
+      - key: ENV
+        value: production
+
+databases:
+  - name: mteas-db
+    databaseName: mteas
+    plan: free

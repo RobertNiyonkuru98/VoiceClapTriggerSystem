@@ -53,6 +53,43 @@ trace WHY a choice was made. Requirement COVERAGE is tracked separately in
   NFR5.3 (mandatory logging of all outcomes). The observer lets the PyQt6 log
   viewer update live.
 
+## D9 — Spoken feedback restores the original "yes" voice (2026-07-20)
+- The original `main.py` (archived to `legacy_voice_assistant/`) used `pyttsx3`
+  to speak "Yes Boss!" on keyword capture, then ran claps/modifier/app-launch.
+  The MTEAS GUI dropped that, leaving the hands-free flow silent/confusing.
+- Fix: re-added a `Voice` helper (gui/app.py) that speaks step prompts on the
+  real listener path: keyword heard -> "Begin the N clap sequence"; clap count;
+  "Clap sequence over, speak the modifier"; dispatch -> "Emergency triggered".
+  pyttsx3 is imported lazily and `speak()` is a no-op if unavailable, so the GUI
+  never crashes without audio/pyttsx3.
+- Config seeded from the original `config.py` on first run: keyword="jesus"
+  (WAKE_WORD), threshold=500, persisted to `mteas_config.json`. The user's
+  trained keyword now matches (the GUI previously defaulted to "help").
+- Clap capture feeds the mic meter live; 0 claps re-prompts instead of advancing
+  (was a bug: state jumped to CLAP_VERIFY/COUNTDOWN with no claps).
+
+## D8 — Always-on listener + real email dispatch (2026-07-20)
+- **Product mental model (user)**: the device is ALWAYS LISTENING. One "Start
+  Listening" click powers the session; the trigger then runs HANDS-FREE from real
+  sound (keyword -> claps -> optional modifier -> countdown -> dispatch). The GUI
+  is the RESPONDER CONSOLE, not a click-to-trigger harness.
+- **Impl**: `ListenerThread` (gui/app.py) keeps the mic open in a loop, calibrates
+  to room noise, detects keyword (Google now / Vosk selectable), captures claps,
+  optional modifier, and lets the engine run the countdown. `KeywordDetector`
+  gained a `keyword_engine` ("google"|"vosk") — Vosk is offline (no network),
+  lazy-imported so the dep is optional.
+- **Email dispatch (FR6.2/FR6.3)**: `mteas/dispatcher.py` sends the dispatch
+  record via SMTP when `Configuration.dispatch_channel == "email"` and a
+  responder + creds are set. Default channel is "simulated" (D4) — NO real email
+  leaves the machine unless explicitly configured via env vars
+  (MTEAS_SMTP_USER/PASS/HOST/PORT) or a .env. Tests use a fake SMTP server.
+- **Safety**: the old click-to-trigger buttons ("Hear keyword", "Hear claps")
+  were removed from the main UI; they survive only in a collapsed
+  "Developer / Test" panel for deterministic no-mic demos (decision D1).
+- **DB**: deliberately NOT used. FR5 (mandatory logging) satisfied by the
+  append-only JSONL log. A relational DB is deferred to the production IoT
+  rollout (FR6) where responder/user tables + audit querying are required.
+
 ## D7 — IoT device is a LOCATION shift, not a behaviour change (2026-07-14)
 - **Model**: 3 layers — SENSOR (mic) → ENGINE (detect/verify) → DISPATCH (alert).
   Only the SENSOR host + DISPATCH channel change over time:

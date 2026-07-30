@@ -11,10 +11,12 @@ from .emergency_event import EmergencyEvent
 
 
 def build_dispatch(event, recipient: str = "Emergency Responder",
-                   channel: str = "SIMULATED") -> Dict:
+                   channel: str = "simulated") -> Dict:
     """Build the dispatch record for an emergency event.
 
     `event` may be an EmergencyEvent or a plain dict (e.g. an observer payload).
+    `channel` is the dispatch channel name ("simulated", "email", "sms", ...).
+    A "simulated" channel stays SIMULATED; any real channel is marked SENT.
     """
     if not isinstance(event, EmergencyEvent):
         fields = EmergencyEvent.__dataclass_fields__
@@ -22,21 +24,27 @@ def build_dispatch(event, recipient: str = "Emergency Responder",
             **{k: v for k, v in (event or {}).items() if k in fields}
         )
     cat = event.category or "unspecified"
+    is_sim = (channel or "simulated").lower() == "simulated"
     return {
         "event_id": event.event_id,
         "recipient": recipient,
         "category": cat,
         "channel": channel,
-        "status": "SIMULATED" if channel == "SIMULATED" else "SENT",
+        "status": "SIMULATED" if is_sim else "SENT",
         "timestamp": event.timestamp,
+        "modifier_phrase": event.modifier_phrase,
     }
 
 
 def format_dispatch(d: Dict) -> str:
+    modifier_line = (
+        f"  Modifier: \"{d['modifier_phrase']}\"\n" if d.get("modifier_phrase") else ""
+    )
     return (
         "DISPATCH SENT\n"
         f"  To      : {d['recipient']}\n"
         f"  Category: {d['category']} emergency\n"
+        f"{modifier_line}"
         f"  Channel : {d['channel']}\n"
         f"  Event   : {d['event_id']}\n"
         f"  Status  : {d['status']}\n"

@@ -42,6 +42,7 @@ class EmergencySystem:
         clap_detector: Optional[ClapDetector] = None,
         modifier_processor: Optional[ModifierProcessor] = None,
         alert_manager: Optional[AlertManager] = None,
+        dispatch_fn: Optional[callable] = None,
     ):
         self.config_store = config_store
         self.logger = logger
@@ -50,10 +51,14 @@ class EmergencySystem:
         self.clap = clap_detector or ClapDetector(cfg.threshold)
         self.modifier = modifier_processor or ModifierProcessor(cfg.categories)
         self.alert = alert_manager or AlertManager(cfg.countdown_seconds)
+        # dispatch_fn(event_dict) -> called on a confirmed alert when a real
+        # channel (email/etc.) is configured. None = simulated only (decision D4).
+        self.dispatch_fn = dispatch_fn
         self.state = STATE_IDLE
         self._observers: List[Observer] = []
         self._pending_category: Optional[str] = None
         self._pending_claps: int = 0
+        self._pending_modifier: Optional[str] = None
 
     # ---- observer (GUI hook) ----
     def on(self, cb: Observer) -> None:
@@ -72,6 +77,7 @@ class EmergencySystem:
         self.state = STATE_IDLE
         self._pending_category = None
         self._pending_claps = 0
+        self._pending_modifier = None
         self._emit("state", {"state": self.state})
         self._emit("reset", {})
 
@@ -100,8 +106,15 @@ class EmergencySystem:
 
     def inject_modifier(self, phrase: Optional[str] = None) -> None:
         category = self.modifier.classify(phrase)
+        if category is None:
+            # Modifier missed or not spoken -- fall back to a clap-count ->
+            # category mapping (household-configurable) instead of always
+            # defaulting to "general" (FR3.x resilience: speech recognition
+            # of the modifier is the least reliable step in the chain).
+            category = self.config.clap_category_map.get(str(self._pending_claps))
         self.logger.log_modifier(phrase, category)
         self._pending_category = category
+        self._pending_modifier = phrase
         self.state = STATE_COUNTDOWN
         self.alert.countdown_seconds = self.config.countdown_seconds
         self.alert.begin()
@@ -125,7 +138,7 @@ class EmergencySystem:
             event = EmergencyEvent(
                 keyword=self.config.keyword,
                 clap_count=self._pending_claps,
-                modifier_phrase=None,
+                modifier_phrase=self._pending_modifier,
                 category=self._pending_category,
                 outcome="cancelled",
             )
@@ -140,11 +153,16 @@ class EmergencySystem:
         event = EmergencyEvent(
             keyword=self.config.keyword,
             clap_count=self._pending_claps,
-            modifier_phrase=None,
+            modifier_phrase=self._pending_modifier,
             category=self._pending_category,
             outcome="activated",
         )
         self.logger.log_activation(event)
+        if self.dispatch_fn is not None:
+            try:
+                self.dispatch_fn(event.to_dict())
+            except Exception as exc:  # NFR5.3: log dispatch failure, keep going
+                self.logger.log_error(f"dispatch failed: {exc}")
         self._emit("alert", {"event": event.to_dict()})
         self.reset()
 

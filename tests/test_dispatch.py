@@ -11,7 +11,7 @@ class TestDispatch(unittest.TestCase):
         self.assertEqual(d["event_id"], "abc")
         self.assertEqual(d["category"], "health")
         self.assertEqual(d["recipient"], "Emergency Responder")
-        self.assertEqual(d["channel"], "SIMULATED")
+        self.assertEqual(d["channel"], "simulated")
         self.assertEqual(d["status"], "SIMULATED")
 
     def test_build_from_dict_payload(self):
