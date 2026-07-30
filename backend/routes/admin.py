@@ -199,22 +199,26 @@ async def get_config(_admin = Depends(_require_admin)):
 
 
 # ── Logs ───────────────────────────────────────────────────────────────────
+# In-memory ring buffer: persists for the lifetime of the server process.
+# Other routes import write_log() to append real events here.
 
-# In a production system these would come from a structured logging sink (e.g.
-# Loki / CloudWatch). For now we synthesise representative entries so the admin
-# UI has real data to display.
-_SYNTHETIC_LOGS = [
-    {"id": 1, "severity": "INFO",  "source": "auth",      "message": "Admin login successful",                    "ts": "2026-07-28T12:00:01Z"},
-    {"id": 2, "severity": "INFO",  "source": "dispatch",  "message": "Emergency event received from device dev_kigali_123", "ts": "2026-07-28T12:05:33Z"},
-    {"id": 3, "severity": "INFO",  "source": "websocket", "message": "Responder health_responder connected",       "ts": "2026-07-28T12:06:00Z"},
-    {"id": 4, "severity": "WARN",  "source": "auth",      "message": "Failed login attempt for username: intruder","ts": "2026-07-28T12:10:14Z"},
-    {"id": 5, "severity": "INFO",  "source": "events",    "message": "Event #2 marked as responded by responder_health", "ts": "2026-07-28T12:12:55Z"},
-    {"id": 6, "severity": "INFO",  "source": "auth",      "message": "New responder account created: responder_fire", "ts": "2026-07-28T13:00:00Z"},
-    {"id": 7, "severity": "ERROR", "source": "database",  "message": "Connection pool timeout — retried successfully","ts": "2026-07-28T13:45:12Z"},
-    {"id": 8, "severity": "INFO",  "source": "dispatch",  "message": "Emergency event received from device dev_kigali_123", "ts": "2026-07-28T14:22:07Z"},
-    {"id": 9, "severity": "WARN",  "source": "websocket", "message": "Client disconnected unexpectedly (role: fire_responder)", "ts": "2026-07-28T14:30:50Z"},
-    {"id":10, "severity": "INFO",  "source": "auth",      "message": "Admin login successful",                    "ts": "2026-07-28T14:47:00Z"},
-]
+_LOG_ENTRIES: list[dict] = []
+_log_counter = 0
+
+
+def write_log(severity: str, source: str, message: str) -> None:
+    global _log_counter
+    _log_counter += 1
+    _LOG_ENTRIES.append({
+        "id":       _log_counter,
+        "severity": severity.upper(),
+        "source":   source,
+        "message":  message,
+        "ts":       datetime.now(timezone.utc).isoformat(),
+    })
+    # Keep at most 500 entries to avoid unbounded memory growth
+    if len(_LOG_ENTRIES) > 500:
+        _LOG_ENTRIES.pop(0)
 
 
 @router.get("/logs", summary="Return structured system log entries")
@@ -222,7 +226,7 @@ async def get_logs(
     severity: Optional[str] = None,
     _admin = Depends(_require_admin),
 ):
-    logs = _SYNTHETIC_LOGS
+    entries = _LOG_ENTRIES
     if severity:
-        logs = [l for l in logs if l["severity"] == severity.upper()]
-    return list(reversed(logs))
+        entries = [e for e in entries if e["severity"] == severity.upper()]
+    return list(reversed(entries))

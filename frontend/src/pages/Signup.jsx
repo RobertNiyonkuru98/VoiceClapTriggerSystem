@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { UserPlus, Siren } from 'lucide-react';
+import { UserPlus, Siren, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
@@ -25,8 +25,11 @@ export default function Signup() {
   };
 
   return (
-    <div className="container flex-center" style={{ minHeight: '80vh' }}>
+    <div className="container flex-center" style={{ minHeight: '80vh', flexDirection: 'column', gap: 0 }}>
       <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
+        <a href="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.85rem', textDecoration: 'none', marginBottom: '1.25rem' }}>
+          <ArrowLeft size={14} /> Back to Login
+        </a>
         <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
           <Siren size={36} color="var(--brand-color)" style={{ marginBottom: '0.25rem' }} />
           <div><span className="brand-font">MTEAS</span></div>
@@ -81,6 +84,9 @@ export default function Signup() {
           Registering a household IoT device? <br/>
           <a href="/signup/household" style={{ color: 'var(--brand-color)' }}>Device Registration Form</a>
         </div>
+      </div>
+      <div style={{ marginTop: '1.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.55, textAlign: 'center' }}>
+        © 2026 Tony Robert · MTEAS
       </div>
     </div>
   );

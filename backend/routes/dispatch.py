@@ -15,6 +15,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from backend.database import get_db, Event, Household
 from backend.routes.ws import manager
+from backend.routes.admin import write_log
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -67,6 +68,7 @@ async def receive_dispatch(payload: DispatchPayload, db: AsyncSession = Depends(
     await db.commit()
     await db.refresh(event)
     event_id = event.id
+    write_log("INFO", "dispatch", f"Event #{event_id} received from device {payload.device_id} — outcome: {payload.outcome}, category: {payload.category or 'general'}")
 
     # Broadcast only for activated alerts (no need to alarm on cancellations)
     if payload.outcome == "activated":

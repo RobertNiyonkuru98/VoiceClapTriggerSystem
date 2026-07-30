@@ -22,6 +22,29 @@ export default function AlertLogs() {
       .finally(() => setLoading(false));
   };
 
+  const exportCSV = () => {
+    const headers = ['Timestamp', 'Category', 'Keyword', 'Outcome', 'Responder', 'Responded At', 'Notes'];
+    const rows = logs.map(log => [
+      new Date(log.timestamp).toLocaleString(),
+      log.category || 'general',
+      log.keyword || '',
+      log.outcome || '',
+      log.responder_name || '',
+      log.responded_at ? new Date(log.responded_at).toLocaleString() : '',
+      log.responder_notes || '',
+    ]);
+    const csv = [headers, ...rows]
+      .map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mteas-logs-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const getBadgeClass = (category) => {
     if(category === 'fire') return 'badge badge-active';
     if(category === 'health') return 'badge badge-resolved';
@@ -32,7 +55,7 @@ export default function AlertLogs() {
     <div className="animate-slide-in">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1>Event Audit Logs</h1>
-        <button className="btn btn-outline">
+        <button className="btn btn-outline" onClick={exportCSV} disabled={logs.length === 0}>
           <Download size={16} /> Export CSV
         </button>
       </div>

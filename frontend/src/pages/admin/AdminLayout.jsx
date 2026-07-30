@@ -68,6 +68,9 @@ export default function AdminLayout({ user, setUser }) {
             >
               <LogOut size={18} /> Logout
             </button>
+            <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '0.75rem', opacity: 0.6 }}>
+              Created by Tony Robert · 2026
+            </div>
           </div>
         </nav>
       </aside>

@@ -1,12 +1,12 @@
-# MTEAS — Multi-Trigger Emergency Assistance System
+# MTEAS : Multi-Trigger Emergency Assistance System
 
 A layered-verification emergency assistance prototype that connects three actors via voice, web, and real-time alerts.
 
 | Actor | Interface | Technology |
 |---|---|---|
 | Household User | Desktop GUI (always-on mic) | Python + PyQt6 |
-| Emergency Responder | Web browser — CAD terminal | React + FastAPI WebSocket |
-| System Administrator | Web browser — admin dashboard | React + FastAPI REST |
+| Emergency Responder | Web browser : CAD terminal | React + FastAPI WebSocket |
+| System Administrator | Web browser : admin dashboard | React + FastAPI REST |
 
 ---
 
@@ -17,11 +17,48 @@ A layered-verification emergency assistance prototype that connects three actors
        ↑                                              ↓
   Mic / TTS                                    PostgreSQL DB
   Keyword → Claps                                    ↓
-  → Modifier → Countdown                   [React SPA — Vercel]
+  → Modifier → Countdown                   [React SPA : Vercel]
                                         /responder  /admin
 ```
 
 The household device is always listening. When the user speaks a keyword, claps the required number of times, and optionally says a modifier word (fire / health / danger), a countdown starts before the alert fires. The backend saves the event and instantly pushes it over WebSocket to every logged-in responder of the matching role.
+
+---
+
+## For the Demo Facilitator
+
+> **You do not need Python, Node.js, or any development tools.** Follow only these steps.
+
+### Step 1 : Download the desktop app
+
+1. Go to the **[Releases](../../releases)** tab of this GitHub repository.
+2. Under the latest release, download **`MTEAS.exe`**.
+3. Double-click `MTEAS.exe` to launch — no installation required.
+
+The app is pre-configured to connect to the live backend (`https://mteas-backend.onrender.com`).
+
+### Step 2 : Enter your device token
+
+1. In the app, open the **Settings** tab.
+2. Paste your **Device Token** into the "Device Token" field.
+   - A token is generated at: `https://voice-clap-trigger-system.vercel.app/signup/household`
+   - If a token was already prepared for the demo, it will be provided to you separately.
+3. Click **Save profile**.
+
+### Step 3 : Start listening
+
+Switch to the **Dashboard** tab and click **Start Listening**. The mic is now active.
+
+### Step 4 : Open the web dashboard
+
+In a browser, go to `https://voice-clap-trigger-system.vercel.app` and log in with the credentials below:
+
+| Dashboard | Username | Password |
+|---|---|---|
+| Responder (Health) | `responder_health` | `health123` |
+| Responder (Fire) | `responder_fire` | `fire123` |
+| Responder (Police) | `responder_police` | `police123` |
+| System Administrator | `admin` | `admin123` |
 
 ---
 
@@ -34,7 +71,7 @@ The household device is always listening. When the user speaks a keyword, claps 
 | PostgreSQL | 14+ | Running locally or remote |
 | Git | any | To clone the repo |
 
-Windows users: install [PyAudio](https://pypi.org/project/PyAudio/) via a pre-built wheel if `pip install pyaudio` fails — see [this guide](https://stackoverflow.com/questions/52283840).
+Windows users: install [PyAudio](https://pypi.org/project/PyAudio/) via a pre-built wheel if `pip install pyaudio` fails : see [this guide](https://stackoverflow.com/questions/52283840).
 
 ---
 
@@ -47,7 +84,7 @@ git clone <repo-url>
 cd VoiceClapTriggerSystem
 ```
 
-### 2. PostgreSQL — create the database
+### 2. PostgreSQL : create the database
 
 ```sql
 -- Run in psql or pgAdmin
@@ -65,11 +102,11 @@ python -m venv .venv
 # macOS / Linux
 source .venv/bin/activate
 
-# Install everything — backend + desktop app
+# Install everything : backend + desktop app
 pip install -r requirements-gui.txt
 ```
 
-### 4. Backend — environment variables
+### 4. Backend : environment variables
 
 Create a `.env` file in the **project root** (next to `requirements.txt`):
 
@@ -92,7 +129,7 @@ On first run it automatically creates all tables and seeds the default accounts 
 
 Swagger UI (interactive API docs): http://localhost:8000/docs
 
-### 6. Frontend — React SPA
+### 6. Frontend : React SPA
 
 ```bash
 cd frontend
@@ -109,6 +146,10 @@ The React SPA starts on **http://localhost:5173**.
 
 ### 7. PyQt6 Desktop App (Household User)
 
+**Recommended (no Python needed):** Download `MTEAS.exe` from the [GitHub Releases](../../releases) page and double-click it. The app already points at the deployed backend — skip to step 4 below.
+
+**Alternative (run from source):**
+
 ```bash
 # From the project root, with the .venv active
 python -m gui.app
@@ -117,9 +158,9 @@ python -m gui.app
 On first launch:
 
 1. Go to the **Settings** tab.
-2. Set **Dispatch channel** to `backend`.
-3. Set **Backend API URL** to `http://localhost:8000` (default) — or your deployed Render URL for the live system.
-4. Paste a **Device Token** generated from the Household Signup page (`http://localhost:5173/signup/household`).
+2. **Dispatch channel** is pre-set to `backend`.
+3. **Backend API URL** is pre-set to `https://mteas-backend.onrender.com`.
+4. Paste a **Device Token** generated from the Household Signup page (`https://voice-clap-trigger-system.vercel.app/signup/household`).
 5. Click **Save profile**.
 6. Switch to the **Dashboard** tab and click **Start Listening**.
 
@@ -136,7 +177,7 @@ These are seeded automatically on the first backend startup:
 | `responder_fire` | `fire123` | Fire Responder |
 | `responder_police` | `police123` | Police / Security Responder |
 
-A seed household is also created: **"Test Home (Rwanda)"** — device token `dev_kigali_123` — pre-loaded into `mteas_config.json` if you want to skip the signup flow.
+A seed household is also created: **"Test Home (Rwanda)"** : device token `dev_kigali_123` : pre-loaded into `mteas_config.json` if you want to skip the signup flow.
 
 ---
 
@@ -145,10 +186,10 @@ A seed household is also created: **"Test Home (Rwanda)"** — device token `dev
 1. **Start** the backend (`uvicorn`) and frontend (`npm run dev`).
 2. Open http://localhost:5173 in a browser, log in as **`responder_fire`** / `fire123`.
 3. The Responder CAD terminal shows a live WebSocket badge (green dot).
-4. In a second tab, log in as **`admin`** / `admin123` — see the overview map.
+4. In a second tab, log in as **`admin`** / `admin123` : see the overview map.
 5. Launch `python -m gui.app`.
-6. On the Dashboard, click **Start Listening** — the mic starts monitoring.
-7. Say the keyword (default: *"jesus"*), clap twice, say *"fire"* — then let the countdown complete.
+6. On the Dashboard, click **Start Listening** : the mic starts monitoring.
+7. Say the keyword (default: *"jesus"*), clap twice, say *"fire"* : then let the countdown complete.
    - Or use the **Developer / Test** panel to inject steps without a mic.
 8. Watch the Responder console receive the alert with an audible alarm, map pin, and address.
 9. Acknowledge → complete the SOP checklist (En Route → On Scene → Scene Secured) → Resolve.
@@ -180,12 +221,12 @@ A seed household is also created: **"Test Home (Rwanda)"** — device token `dev
 ```
 VoiceClapTriggerSystem/
 ├── backend/                  FastAPI backend
-│   ├── main.py               Entry point — routes, CORS, lifespan
+│   ├── main.py               Entry point : routes, CORS, lifespan
 │   ├── auth.py               JWT helpers
 │   ├── database.py           SQLAlchemy models + seed data
 │   └── routes/
 │       ├── auth.py           Login, signup (responder + household)
-│       ├── dispatch.py       POST /api/dispatch — receives PyQt events
+│       ├── dispatch.py       POST /api/dispatch : receives PyQt events
 │       ├── events.py         Event log + stats + status updates
 │       ├── admin.py          Admin-only user/household/config routes
 │       └── ws.py             WebSocket hub
@@ -208,7 +249,7 @@ VoiceClapTriggerSystem/
 │   └── DESIGN_DECISIONS.md   Logged architecture decisions
 ├── render.yaml               Render deployment blueprint
 ├── requirements.txt          Backend-only deps (what Render installs)
-├── requirements-gui.txt      Full local deps — backend + desktop app
+├── requirements-gui.txt      Full local deps : backend + desktop app
 └── .env                      Local backend secrets (not committed)
 ```
 

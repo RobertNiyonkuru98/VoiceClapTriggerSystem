@@ -31,9 +31,9 @@ class Configuration:
     mic_sample_rate: int = 44100
     mic_block_size: int = 1024
     keyword_engine: str = "google"       # "google" (network) or "vosk" (offline)
-    dispatch_channel: str = "simulated"  # "simulated", "email", or "backend"
+    dispatch_channel: str = "backend"    # "simulated", "email", or "backend"
     responder_email: str = ""            # recipient of email dispatch
-    backend_url: str = "http://localhost:8000"  # MTEAS backend API base URL (FR7.1)
+    backend_url: str = "https://mteas-backend.onrender.com"  # MTEAS backend API base URL (FR7.1)
     device_token: str = ""               # Unique token linking this device to a registered household (FR7.1)
     auto_calibrate_on_start: bool = True  # recalibrate threshold from ambient noise every "Start Listening"
     categories: Dict[str, List[str]] = field(

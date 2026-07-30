@@ -30,7 +30,7 @@ export default function Login({ setUser }) {
   };
 
   return (
-    <div className="container flex-center" style={{ minHeight: '80vh' }}>
+    <div className="container flex-center" style={{ minHeight: '80vh', flexDirection: 'column', gap: 0 }}>
       <div className="card" style={{ width: '100%', maxWidth: '400px' }}>
         <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
           <Siren size={36} color="var(--brand-color)" style={{ marginBottom: '0.25rem' }} />
@@ -71,6 +71,9 @@ export default function Login({ setUser }) {
         <div style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--text-muted)' }}>
           Need an account? <a href="/signup" style={{ color: 'var(--brand-color)' }}>Sign up here</a>
         </div>
+      </div>
+      <div style={{ marginTop: '1.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.55, textAlign: 'center' }}>
+        © 2026 Tony Robert · MTEAS
       </div>
     </div>
   );

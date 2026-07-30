@@ -124,6 +124,7 @@ export default function BaseMap({
           center: [lat, lng],
           zoom,
           zoomControl: false,
+          scrollWheelZoom: true,
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -160,8 +161,19 @@ export default function BaseMap({
 
     const valid = markers.filter(m => typeof m.lat === 'number' && typeof m.lng === 'number');
 
+    // Offset markers that share the same coordinates so both are visible
+    const posCount = {};
+    const spread = valid.map(m => {
+      const key = `${m.lat.toFixed(5)},${m.lng.toFixed(5)}`;
+      posCount[key] = (posCount[key] || 0) + 1;
+      const n = posCount[key];
+      return n > 1
+        ? { ...m, lat: m.lat + (n - 1) * 0.00015, lng: m.lng + (n - 1) * 0.00015 }
+        : m;
+    });
+
     // Add markers
-    valid.forEach(m => {
+    spread.forEach(m => {
       const color = MARKER_COLORS[m.type] ?? MARKER_COLORS.household;
       const icon  = L.divIcon({
         html: buildPinHtml(color, 34),
@@ -176,11 +188,11 @@ export default function BaseMap({
     });
 
     // Triangulation lines
-    if (triangulate && valid.length >= 2) {
-      for (let i = 0; i < valid.length; i++) {
-        for (let j = i + 1; j < valid.length; j++) {
+    if (triangulate && spread.length >= 2) {
+      for (let i = 0; i < spread.length; i++) {
+        for (let j = i + 1; j < spread.length; j++) {
           const line = L.polyline(
-            [[valid[i].lat, valid[i].lng], [valid[j].lat, valid[j].lng]],
+            [[spread[i].lat, spread[i].lng], [spread[j].lat, spread[j].lng]],
             { color: '#eab308', weight: 1.5, opacity: 0.45, dashArray: '6 6' }
           ).addTo(map);
           linesRef.current.push(line);
@@ -209,14 +221,21 @@ export default function BaseMap({
       }).addTo(map).bindTooltip('📍 You', { permanent: false, direction: 'top', offset: [0, -12] });
     }
 
-    // Fit bounds
-    if (valid.length > 1) {
+    // Fit bounds — guard against zero-area bounds (all markers at same coords)
+    if (spread.length > 1) {
       try {
-        const bounds = window.L.latLngBounds(valid.map(m => [m.lat, m.lng]));
-        if (bounds.isValid()) map.fitBounds(bounds, { padding: [60, 60] });
+        const bounds = window.L.latLngBounds(spread.map(m => [m.lat, m.lng]));
+        const diagonal = bounds.isValid()
+          ? bounds.getNorthEast().distanceTo(bounds.getSouthWest())
+          : 0;
+        if (diagonal > 50) {
+          map.fitBounds(bounds, { padding: [60, 60] });
+        } else {
+          map.setView([spread[0].lat, spread[0].lng], zoom);
+        }
       } catch { /* ignore */ }
-    } else if (valid.length === 1) {
-      map.setView([valid[0].lat, valid[0].lng], zoom);
+    } else if (spread.length === 1) {
+      map.setView([spread[0].lat, spread[0].lng], zoom);
     }
 
     map.invalidateSize();

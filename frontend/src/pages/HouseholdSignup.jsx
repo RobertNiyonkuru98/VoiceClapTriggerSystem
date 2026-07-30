@@ -1,17 +1,28 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Home, MapPin, Copy, Siren } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { Home, MapPin, Copy, Siren, ArrowLeft } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import L from 'leaflet';
+
+// Fix broken default marker icons in Vite production builds
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 function LocationPicker({ position, setPosition }) {
-  useMapEvents({
-    click(e) {
-      setPosition(e.latlng);
-    },
-  });
-  return position === null ? null : (
-    <Marker position={position}></Marker>
-  );
+  useMapEvents({ click(e) { setPosition(e.latlng); } });
+  return position === null ? null : <Marker position={position} />;
+}
+
+function MapUpdater({ position }) {
+  const map = useMap();
+  useEffect(() => {
+    if (position) map.setView([position.lat, position.lng], 15);
+  }, [position, map]);
+  return null;
 }
 
 export default function HouseholdSignup() {
@@ -56,7 +67,7 @@ export default function HouseholdSignup() {
 
   if (result) {
     return (
-      <div className="container flex-center" style={{ minHeight: '80vh' }}>
+      <div className="container flex-center" style={{ minHeight: '80vh', flexDirection: 'column', gap: 0 }}>
         <div className="card" style={{ width: '100%', maxWidth: '500px', textAlign: 'center' }}>
           <h2 style={{ color: 'var(--health-color)', marginBottom: '1rem' }}>Registration Successful</h2>
           <p>Household for <b>{result.owner_name}</b> has been registered.</p>
@@ -74,12 +85,20 @@ export default function HouseholdSignup() {
           </p>
           <a href="/login" className="btn btn-primary" style={{ marginTop: '1.5rem', textDecoration: 'none' }}>Go to Dashboard</a>
         </div>
+        <div style={{ marginTop: '1.5rem', fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.55, textAlign: 'center' }}>
+          © 2026 Tony Robert · MTEAS
+        </div>
       </div>
     );
   }
 
   return (
     <div className="container" style={{ paddingBottom: '3rem' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', paddingTop: '1rem' }}>
+        <a href="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.9rem', textDecoration: 'none', marginBottom: '1rem' }}>
+          <ArrowLeft size={15} /> Back to Login
+        </a>
+      </div>
       <div className="card" style={{ maxWidth: '800px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
           <Siren size={36} color="var(--brand-color)" style={{ marginBottom: '0.25rem' }} />
@@ -133,15 +152,14 @@ export default function HouseholdSignup() {
               Map Location (Click to set pin)
             </label>
             <div style={{ height: '300px', borderRadius: '8px', overflow: 'hidden' }}>
-              <MapContainer 
-                center={position || [-1.9441, 30.0619]} // Default Kigali
-                zoom={13} 
+              <MapContainer
+                center={[-1.9441, 30.0619]}
+                zoom={13}
                 style={{ height: '100%', width: '100%' }}
               >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <LocationPicker position={position} setPosition={setPosition} />
+                <MapUpdater position={position} />
               </MapContainer>
             </div>
             {position && (
@@ -155,6 +173,9 @@ export default function HouseholdSignup() {
             {loading ? 'Registering...' : 'Register Household & Generate Token'}
           </button>
         </form>
+        </div>
+      <div style={{ maxWidth: '800px', margin: '1.5rem auto 0', fontSize: '0.75rem', color: 'var(--text-muted)', opacity: 0.55, textAlign: 'center' }}>
+        © 2026 Tony Robert · MTEAS
       </div>
     </div>
   );

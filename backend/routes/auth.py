@@ -14,6 +14,7 @@ from pydantic import BaseModel
 
 from backend.auth import create_access_token, get_current_user
 from backend.database import get_db, verify_password, _hash_password, User, Household
+from backend.routes.admin import write_log
 
 router = APIRouter()
 
@@ -27,12 +28,14 @@ async def login(
     user = result.scalars().first()
 
     if not user or not verify_password(form_data.password, user.password_hash):
+        write_log("WARN", "auth", f"Failed login attempt for username: {form_data.username}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    write_log("INFO", "auth", f"Login successful: {user.username} ({user.role})")
     token = create_access_token(username=user.username, role=user.role)
     return {
         "access_token": token,
@@ -59,6 +62,7 @@ async def signup_responder(data: ResponderSignup, db: AsyncSession = Depends(get
     )
     db.add(new_user)
     await db.commit()
+    write_log("INFO", "auth", f"New responder account created: {data.username} ({data.role})")
     return {"status": "success", "username": data.username, "role": data.role}
 
 class HouseholdSignup(BaseModel):
@@ -81,6 +85,7 @@ async def signup_household(data: HouseholdSignup, db: AsyncSession = Depends(get
     )
     db.add(new_house)
     await db.commit()
+    write_log("INFO", "auth", f"Household registered: {data.owner_name} at {data.address}")
     return {
         "status": "success", 
         "owner_name": data.owner_name, 
