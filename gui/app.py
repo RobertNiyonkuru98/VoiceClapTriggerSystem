@@ -578,7 +578,7 @@ class DashboardTab(QWidget):
                 token = getattr(cfg, "device_token", "")
                 import requests
                 headers = {"Authorization": f"Bearer {token}"} if token else {}
-                requests.post(f"{url.rstrip('/')}/api/dispatch", json=payload, headers=headers, timeout=5)
+                requests.post(f"{url.rstrip('/')}/api/dispatch", json=payload, headers=headers, timeout=35)
             except Exception:
                 pass
         threading.Thread(target=_send, daemon=True).start()
